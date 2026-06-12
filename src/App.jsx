@@ -6,17 +6,30 @@ import Dashboard from './pages/Dashboard.jsx'
 import StudentProfile from './pages/StudentProfile.jsx'
 import MySchool from './pages/MySchool.jsx'
 import StudentAccess from './pages/StudentAccess.jsx'
+import SchoolOnboarding from './pages/SchoolOnboarding.jsx'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
+  const [schoolId, setSchoolId] = useState(undefined)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session))
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => setSession(s))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
+      setSession(s)
+      if (!s) setSchoolId(null)
+    })
     return () => subscription.unsubscribe()
   }, [])
 
-  if (session === undefined) return <div className="min-h-screen flex items-center justify-center text-gray-400">Chargement…</div>
+  useEffect(() => {
+    if (!session) return
+    supabase.from('teacher_schools').select('school_id').eq('teacher_id', session.user.id).maybeSingle()
+      .then(({ data }) => setSchoolId(data?.school_id ?? null))
+  }, [session])
+
+  if (session === undefined || (session && schoolId === undefined)) {
+    return <div className="min-h-screen flex items-center justify-center text-gray-400">Chargement…</div>
+  }
 
   return (
     <Routes>
@@ -25,6 +38,11 @@ export default function App() {
         <>
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
+        </>
+      ) : !schoolId ? (
+        <>
+          <Route path="/onboarding" element={<SchoolOnboarding userId={session.user.id} onDone={id => setSchoolId(id)} />} />
+          <Route path="*" element={<Navigate to="/onboarding" replace />} />
         </>
       ) : (
         <>
