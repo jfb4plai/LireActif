@@ -21,7 +21,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
       >
         <input type="range" min={30} max={400} step={10} value={s.wpm}
           onChange={e => onChange({ ...s, wpm: Number(e.target.value) })}
-          className="w-full accent-[#0a9370]" />
+          className="w-full accent-p-rose" />
       </Field>
 
       <Field
@@ -30,7 +30,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
       >
         <input type="range" min={24} max={72} step={2} value={s.font_size}
           onChange={e => onChange({ ...s, font_size: Number(e.target.value) })}
-          className="w-full accent-[#0a9370]" />
+          className="w-full accent-p-rose" />
       </Field>
 
       <Field
@@ -40,7 +40,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
         <div className="flex gap-2">
           {[1, 2, 3].map(n => (
             <button key={n} onClick={() => onChange({ ...s, chunk_size: n })}
-              className={`px-4 py-2 rounded border font-semibold ${s.chunk_size === n ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
+              className={`px-4 py-2 rounded border font-semibold ${s.chunk_size === n ? 'bg-p-noir text-white border-p-noir' : 'border-gray-300'}`}>
               {n}
             </button>
           ))}
@@ -52,7 +52,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
         help="Ajoute 50 % de temps d'affichage sur les mots suivis d'une ponctuation (., ; : ! ?). Recommandé : la segmentation syntaxique est un appui pour la compréhension, notamment chez les élèves dont le traitement prosodique est déficitaire. (Harrar-Eskinazi, 2023 — corpus RISS)"
       >
         <button onClick={() => onChange({ ...s, pause_punctuation: !s.pause_punctuation })}
-          className={`px-4 py-2 rounded border font-semibold ${s.pause_punctuation ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
+          className={`px-4 py-2 rounded border font-semibold ${s.pause_punctuation ? 'bg-p-noir text-white border-p-noir' : 'border-gray-300'}`}>
           {s.pause_punctuation ? 'Activée' : 'Désactivée'}
         </button>
       </Field>
@@ -64,7 +64,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
         <div className="flex gap-2">
           {[{ value: 'white', label: 'Blanc' }, { value: 'yellow', label: 'Ocre' }].map(opt => (
             <button key={opt.value} onClick={() => onChange({ ...s, background: opt.value })}
-              className={`px-4 py-2 rounded border font-semibold ${s.background === opt.value ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
+              className={`px-4 py-2 rounded border font-semibold ${s.background === opt.value ? 'bg-p-noir text-white border-p-noir' : 'border-gray-300'}`}>
               {opt.label}
             </button>
           ))}
@@ -81,7 +81,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
         }
       >
         <button onClick={() => onChange({ ...s, show_context: !s.show_context })}
-          className={`px-4 py-2 rounded border font-semibold ${s.show_context ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
+          className={`px-4 py-2 rounded border font-semibold ${s.show_context ? 'bg-p-noir text-white border-p-noir' : 'border-gray-300'}`}>
           {s.show_context ? 'Activés' : 'Désactivés'}
         </button>
       </Field>

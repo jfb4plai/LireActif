@@ -7,32 +7,45 @@ const SAMPLE = `La lecture est une activité complexe qui mobilise simultanémen
 
 export default function RSVPDemo() {
   const [settings, setSettings] = useState({
-    wpm: 180,
-    font_size: 36,
-    chunk_size: 1,
-    pause_punctuation: true,
-    background: 'white',
+    wpm: 180, font_size: 36, chunk_size: 1,
+    pause_punctuation: true, background: 'white', show_context: false,
   })
 
   return (
-    <div className="max-w-2xl mx-auto p-4 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-[#0a9370]">Demo RSVP</h1>
-        <Link to="/login" className="text-sm text-gray-400 underline">Connexion →</Link>
-      </div>
+    <div className="min-h-screen bg-p-bg">
+      <nav className="sticky top-0 z-50 bg-white border-b border-p-bord">
+        <div className="max-w-3xl mx-auto px-4 flex items-center justify-between h-14">
+          <div className="flex items-center gap-3">
+            <img src="/plai-logo.png" alt="PLAI" className="h-8 w-auto" />
+            <div>
+              <p className="text-xs font-bold text-p-noir tracking-tight">LireActif — Démo RSVP</p>
+              <p className="text-[10px] font-medium text-p-gris2 uppercase tracking-widest">Sans compte requis</p>
+            </div>
+          </div>
+          <Link to="/login" className="text-xs font-semibold bg-p-noir text-white px-3 py-1.5 rounded-[2px] hover:bg-p-noir2 transition-colors">
+            Connexion →
+          </Link>
+        </div>
+      </nav>
 
-      <div className="bg-teal-50 border border-teal-200 rounded-lg p-3 text-sm text-teal-800">
-        <strong>RSVP</strong> — Rapid Serial Visual Presentation. Les mots s'affichent un par un au centre de l'écran, à vitesse fixe. Aucun compte requis pour ce test.
-      </div>
+      <div className="max-w-2xl mx-auto p-4 space-y-5 pt-6">
 
-      <div className="bg-white rounded-xl border p-4 space-y-4">
-        <p className="text-sm font-semibold text-gray-700">Réglages</p>
-        <RSVPSettings settings={settings} onChange={setSettings} />
-      </div>
+        <div className="border border-p-bord border-l-[3px] border-l-p-rose bg-white rounded-[2px] p-4 text-sm text-p-gris">
+          <p className="font-semibold text-p-noir mb-1">RSVP — Rapid Serial Visual Presentation</p>
+          Les mots s'affichent un par un au centre de l'écran à vitesse fixe, éliminant les saccades oculaires gauche-droite.
+          Chaque réglage ci-dessous est accompagné d'une note de recherche issue du <strong className="text-p-noir">corpus RISS</strong> (522 000+ articles francophones).
+        </div>
 
-      <div className="bg-white rounded-xl border p-4">
-        <p className="text-sm font-semibold text-gray-700 mb-3">Lecteur</p>
-        <RSVPReader settings={settings} defaultText={SAMPLE} />
+        <div className="bg-white border border-p-bord rounded-[2px] p-5">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-p-rose mb-4">Réglages</p>
+          <RSVPSettings settings={settings} onChange={setSettings} />
+        </div>
+
+        <div className="bg-white border border-p-bord rounded-[2px] p-5">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-p-rose mb-4">Lecteur</p>
+          <RSVPReader settings={settings} defaultText={SAMPLE} />
+        </div>
+
       </div>
     </div>
   )

@@ -142,7 +142,7 @@ export default function RSVPReader({ settings, defaultText = '' }) {
         )}
       </div>
       <div className="w-full bg-gray-200 h-1">
-        <div className="bg-[#0a9370] h-1 transition-all" style={{ width: `${progress}%` }} />
+        <div className="bg-p-rose h-1 transition-all" style={{ width: `${progress}%` }} />
       </div>
       <div className="flex gap-4 p-6">
         <button onClick={reset} className="px-6 py-3 bg-gray-200 rounded-lg text-lg font-semibold">⏮</button>
@@ -179,7 +179,7 @@ export default function RSVPReader({ settings, defaultText = '' }) {
             <span className="text-sm font-medium text-gray-700">Voix (TTS)</span>
             <button
               onClick={() => setTtsEnabled(v => !v)}
-              className={`px-3 py-1 rounded text-sm font-semibold border transition-colors ${ttsEnabled ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300 text-gray-500'}`}
+              className={`px-3 py-1 rounded-[2px] text-sm font-semibold border transition-colors ${ttsEnabled ? 'bg-p-noir text-white border-p-noir' : 'border-p-bord text-p-gris'}`}
             >
               {ttsEnabled ? 'Activée' : 'Désactivée'}
             </button>
@@ -203,7 +203,7 @@ export default function RSVPReader({ settings, defaultText = '' }) {
       <button
         onClick={startReading}
         disabled={!text.trim()}
-        className="w-full bg-[#0a9370] text-white py-3 rounded-lg text-lg font-semibold disabled:opacity-40"
+        className="w-full bg-p-noir text-white py-3 rounded-[2px] text-sm font-semibold disabled:opacity-40 hover:bg-p-noir2 transition-colors"
       >
         Lire
       </button>

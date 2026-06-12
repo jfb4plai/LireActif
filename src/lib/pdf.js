@@ -6,7 +6,7 @@ export function generateStudentPDF({ student, rsvp, predict, note }) {
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(16)
-  doc.setTextColor('#0a9370')
+  doc.setTextColor('#FF3399')
   doc.text('LireActif — Fiche élève', 20, 20)
 
   doc.setTextColor('#000000')

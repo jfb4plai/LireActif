@@ -22,7 +22,7 @@ export default function PredictSettings({ settings, onChange, readOnly = false }
       <div>
         <p className="text-sm text-gray-500 mb-1">Vocabulaire</p>
         <div className="flex flex-wrap gap-1">
-          {s.domain_vocab.map(w => <span key={w} className="bg-teal-50 text-teal-800 px-2 py-0.5 rounded text-sm">{w}</span>)}
+          {s.domain_vocab.map(w => <span key={w} className="bg-p-beige text-p-rose-dk px-2 py-0.5 rounded-[2px] text-xs font-medium">{w}</span>)}
           {s.domain_vocab.length === 0 && <span className="text-gray-400 text-sm">—</span>}
         </div>
       </div>
@@ -39,7 +39,7 @@ export default function PredictSettings({ settings, onChange, readOnly = false }
         <div className="flex gap-2 mt-1">
           {[{ v: 'fr', l: 'Français' }, { v: 'nl', l: 'Néerlandais' }].map(opt => (
             <button key={opt.v} onClick={() => onChange({ ...s, lang: opt.v })}
-              className={`px-4 py-2 rounded border font-semibold ${s.lang === opt.v ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
+              className={`px-4 py-2 rounded border font-semibold ${s.lang === opt.v ? 'bg-p-noir text-white border-p-noir' : 'border-gray-300'}`}>
               {opt.l}
             </button>
           ))}
@@ -66,11 +66,11 @@ export default function PredictSettings({ settings, onChange, readOnly = false }
             onChange={e => setVocabInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addVocab())}
           />
-          <button onClick={addVocab} className="px-4 py-2 bg-[#0a9370] text-white rounded-lg text-sm font-semibold">+</button>
+          <button onClick={addVocab} className="px-4 py-2 bg-p-noir text-white rounded-[2px] text-sm font-semibold hover:bg-p-noir2 transition-colors">+</button>
         </div>
         <div className="flex flex-wrap gap-1 mt-2">
           {s.domain_vocab.map(w => (
-            <span key={w} className="bg-teal-50 text-teal-800 px-2 py-0.5 rounded text-sm flex items-center gap-1">
+            <span key={w} className="bg-p-beige text-p-rose-dk px-2 py-0.5 rounded-[2px] text-xs font-medium flex items-center gap-1">
               {w}
               <button onClick={() => removeVocab(w)} className="text-teal-600 hover:text-red-500">×</button>
             </span>

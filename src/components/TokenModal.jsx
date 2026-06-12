@@ -13,17 +13,11 @@ export default function TokenModal({ studentId, onClose }) {
     const { data: { session } } = await supabase.auth.getSession()
     const res = await fetch('/api/generate-token', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
       body: JSON.stringify({ student_id: studentId })
     })
     const data = await res.json()
-    if (data.url) {
-      setUrl(data.url)
-      setExpiresAt(new Date(data.expires_at).toLocaleDateString('fr-BE'))
-    }
+    if (data.url) { setUrl(data.url); setExpiresAt(new Date(data.expires_at).toLocaleDateString('fr-BE')) }
     setLoading(false)
   }
 
@@ -35,29 +29,29 @@ export default function TokenModal({ studentId, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
+      <div className="bg-white border border-p-bord rounded-[2px] max-w-md w-full p-6 space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-bold">Accès élève</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
+          <h2 className="text-base font-bold text-p-noir">Accès élève</h2>
+          <button onClick={onClose} className="text-p-gris2 hover:text-p-noir text-xl leading-none">×</button>
         </div>
 
         {!url ? (
           <button onClick={generate} disabled={loading}
-            className="w-full bg-[#0a9370] text-white py-3 rounded-lg font-semibold disabled:opacity-50">
+            className="w-full bg-p-noir text-white py-2.5 rounded-[2px] font-semibold text-sm disabled:opacity-50 hover:bg-p-noir2 transition-colors">
             {loading ? 'Génération…' : 'Générer un accès (30 jours)'}
           </button>
         ) : (
           <>
-            <div className="flex justify-center">
-              <QRCodeSVG value={url} size={200} />
+            <div className="flex justify-center p-4 bg-p-bg border border-p-bord rounded-[2px]">
+              <QRCodeSVG value={url} size={180} />
             </div>
-            <div className="bg-gray-50 rounded-lg p-3 text-xs break-all text-gray-600">{url}</div>
+            <div className="bg-p-bg border border-p-bord rounded-[2px] p-3 text-xs break-all text-p-gris">{url}</div>
             <button onClick={copyUrl}
-              className="w-full border border-[#0a9370] text-[#0a9370] py-2 rounded-lg font-semibold">
+              className="w-full border border-p-noir text-p-noir py-2 rounded-[2px] text-sm font-semibold hover:bg-p-noir hover:text-white transition-colors">
               {copied ? '✓ Copié !' : 'Copier le lien'}
             </button>
-            <p className="text-xs text-gray-400 text-center">Expire le {expiresAt}</p>
-            <button onClick={generate} className="w-full text-sm text-gray-400 underline">
+            <p className="text-xs text-p-gris2 text-center">Expire le {expiresAt}</p>
+            <button onClick={generate} className="w-full text-xs text-p-gris2 hover:text-p-rose transition-colors">
               Générer un nouveau lien
             </button>
           </>

@@ -56,7 +56,7 @@ export default function StudentAccess() {
         <div className="flex border-b">
           {['rsvp', 'predict'].map(t => (
             <button key={t} onClick={() => setTab(t)}
-              className={`flex-1 py-4 font-semibold text-lg border-b-2 -mb-px transition-colors ${tab === t ? 'border-[#0a9370] text-[#0a9370]' : 'border-transparent text-gray-400'}`}>
+              className={`flex-1 py-4 font-semibold text-lg border-b-2 -mb-px transition-colors ${tab === t ? 'border-p-rose text-p-noir' : 'border-transparent text-p-gris2'}`}>
               {t === 'rsvp' ? 'Lire' : 'Écrire'}
             </button>
           ))}
