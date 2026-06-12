@@ -60,7 +60,9 @@ export default function RSVPReader({ settings, defaultText = '' }) {
 
     if (ttsEnabled && hasTTS) {
       // TTS drives timing: visual advances on utterance end
-      const utt = new SpeechSynthesisUtterance(chunks[index])
+      // Expand acronyms (2+ uppercase letters) so TTS spells them letter by letter
+      const spokenText = chunks[index].replace(/\b([A-ZÀÂÄÉÈÊËÎÏÔÙÛÜÇ]{2,})\b/g, m => m.split('').join(' '))
+      const utt = new SpeechSynthesisUtterance(spokenText)
       const voice = voices.find(v => v.voiceURI === selectedVoiceURI)
       if (voice) utt.voice = voice
       utt.rate = Math.min(Math.max(s.wpm / 150, 0.5), 2)
