@@ -21,7 +21,7 @@ export default function SchoolOnboarding({ userId, onDone }) {
     <div className="min-h-screen flex items-center justify-center bg-p-bg">
       <form onSubmit={handleSubmit} className="bg-white border border-p-bord rounded-[2px] p-8 w-full max-w-sm space-y-4">
         <div className="flex items-center gap-3 mb-2">
-          <img src="/plai-logo.png" alt="PLAI" className="h-10 w-auto" />
+          <img src="/plai-logo.jpg" alt="PLAI" className="h-10 w-auto" />
           <span className="text-sm font-bold text-p-noir">LireActif</span>
         </div>
         <h1 className="text-lg font-bold text-p-noir">Code école</h1>

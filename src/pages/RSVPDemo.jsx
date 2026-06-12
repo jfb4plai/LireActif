@@ -16,7 +16,7 @@ export default function RSVPDemo() {
       <nav className="sticky top-0 z-50 bg-white border-b border-p-bord">
         <div className="max-w-3xl mx-auto px-4 flex items-center justify-between h-14">
           <div className="flex items-center gap-3">
-            <img src="/plai-logo.png" alt="PLAI" className="h-8 w-auto" />
+            <img src="/plai-logo.jpg" alt="PLAI" className="h-8 w-auto" />
             <div>
               <p className="text-xs font-bold text-p-noir tracking-tight">LireActif — Démo RSVP</p>
               <p className="text-[10px] font-medium text-p-gris2 uppercase tracking-widest">Sans compte requis</p>

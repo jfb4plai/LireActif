@@ -51,7 +51,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-p-bg">
       <form onSubmit={handleSchoolCode} className="bg-white border border-p-bord rounded-[2px] p-8 w-full max-w-sm space-y-4">
         <div className="flex items-center gap-3 mb-2">
-          <img src="/plai-logo.png" alt="PLAI" className="h-10 w-auto" />
+          <img src="/plai-logo.jpg" alt="PLAI" className="h-10 w-auto" />
           <span className="text-xs font-semibold text-p-noir tracking-wide">LireActif</span>
         </div>
         <h1 className="text-lg font-bold text-p-noir">Code école</h1>
@@ -71,7 +71,7 @@ export default function Login() {
       <form onSubmit={mode === 'login' ? handleLogin : handleSignup}
         className="bg-white border border-p-bord rounded-[2px] p-8 w-full max-w-sm space-y-4">
         <div className="flex items-center gap-3 mb-2">
-          <img src="/plai-logo.png" alt="PLAI" className="h-10 w-auto" />
+          <img src="/plai-logo.jpg" alt="PLAI" className="h-10 w-auto" />
           <div>
             <p className="text-sm font-bold text-p-noir tracking-tight">LireActif</p>
             <p className="text-[10px] font-medium text-p-gris2 uppercase tracking-widest">PLAI — Liège</p>
