@@ -14,7 +14,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
   return (
     <div className="space-y-4">
       <Field label={`Vitesse : ${s.wpm} mots/min`}>
-        <input type="range" min={100} max={400} step={10} value={s.wpm}
+        <input type="range" min={30} max={400} step={10} value={s.wpm}
           onChange={e => onChange({ ...s, wpm: Number(e.target.value) })}
           className="w-full accent-[#0a9370]" />
       </Field>
