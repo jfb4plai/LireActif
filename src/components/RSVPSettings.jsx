@@ -13,18 +13,30 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
   )
 
   return (
-    <div className="space-y-4">
-      <Field label={`Vitesse : ${s.wpm} mots/min`}>
+    <div className="space-y-5">
+
+      <Field
+        label={`Vitesse : ${s.wpm} mots/min`}
+        help="Commencer entre 100 et 150 mpm pour les lecteurs en difficulté. La suppression des saccades oculaires en RSVP réduit la fatigue, mais une vitesse trop élevée nuit à la compréhension : les régressions (retours arrière) représentent 20 % des fixations normales et sont fonctionnelles. (Aparicio et al., 2024 — corpus RISS)"
+      >
         <input type="range" min={30} max={400} step={10} value={s.wpm}
           onChange={e => onChange({ ...s, wpm: Number(e.target.value) })}
           className="w-full accent-[#0a9370]" />
       </Field>
-      <Field label={`Taille police : ${s.font_size}px`}>
+
+      <Field
+        label={`Taille police : ${s.font_size}px`}
+        help="Une taille plus grande réduit l'encombrement perceptif (crowding) entre lettres, particulièrement bénéfique pour les profils DYS visuo-attentionnels. Privilégier 36–48 px en début d'utilisation. (Leibnitz et al., 2015 — corpus RISS)"
+      >
         <input type="range" min={24} max={72} step={2} value={s.font_size}
           onChange={e => onChange({ ...s, font_size: Number(e.target.value) })}
           className="w-full accent-[#0a9370]" />
       </Field>
-      <Field label="Mots par affichage">
+
+      <Field
+        label="Mots par affichage"
+        help="1 mot = RSVP pur, charge attentionnelle maximale par unité. 2–3 mots = groupes de sens, moins déstabilisant mais plus d'information simultanée. Pour la dyslexie phonologique, commencer à 1. Pour les profils TDAH avec mémoire de travail fragile, 2 peut aider à maintenir le fil sémantique."
+      >
         <div className="flex gap-2">
           {[1, 2, 3].map(n => (
             <button key={n} onClick={() => onChange({ ...s, chunk_size: n })}
@@ -34,13 +46,21 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
           ))}
         </div>
       </Field>
-      <Field label="Pause aux ponctuations">
+
+      <Field
+        label="Pause aux ponctuations"
+        help="Ajoute 50 % de temps d'affichage sur les mots suivis d'une ponctuation (., ; : ! ?). Recommandé : la segmentation syntaxique est un appui pour la compréhension, notamment chez les élèves dont le traitement prosodique est déficitaire. (Harrar-Eskinazi, 2023 — corpus RISS)"
+      >
         <button onClick={() => onChange({ ...s, pause_punctuation: !s.pause_punctuation })}
           className={`px-4 py-2 rounded border font-semibold ${s.pause_punctuation ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
           {s.pause_punctuation ? 'Activée' : 'Désactivée'}
         </button>
       </Field>
-      <Field label="Fond de lecture">
+
+      <Field
+        label="Fond de lecture"
+        help="Le fond ocre réduit le contraste lumineux blanc/noir, utilisé comme adaptation pour les profils sensibles à l'éblouissement ou présentant un syndrome de Meares-Irlen (photosensibilité). Effet documenté mais variable selon les individus : à tester avec l'élève. (Klein, 2010 — corpus RISS)"
+      >
         <div className="flex gap-2">
           {[{ value: 'white', label: 'Blanc' }, { value: 'yellow', label: 'Ocre' }].map(opt => (
             <button key={opt.value} onClick={() => onChange({ ...s, background: opt.value })}
@@ -50,26 +70,32 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
           ))}
         </div>
       </Field>
-      <Field label="Mots de contexte (chunks précédent / suivant)">
+
+      <Field
+        label="Mots de contexte"
+        help={
+          <span>
+            Affiche le chunk précédent et le suivant en grisé, de part et d'autre du mot central. Peut aider les lecteurs qui perdent le fil sémantique en RSVP pur.{' '}
+            <strong className="text-amber-800">Déconseillé pour les profils DYS visuo-attentionnels</strong> : les mots adjacents créent un encombrement perceptif (crowding) démontré comme facteur aggravant de la dyslexie — certains élèves lisent 20 % plus vite quand l'espacement est augmenté, pas réduit. (Godefroy & Roubot, 2020 ; Leibnitz et al., 2015 — corpus RISS)
+          </span>
+        }
+      >
         <button onClick={() => onChange({ ...s, show_context: !s.show_context })}
           className={`px-4 py-2 rounded border font-semibold ${s.show_context ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
           {s.show_context ? 'Activés' : 'Désactivés'}
         </button>
-        {s.show_context && (
-          <p className="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded p-2">
-            Déconseillé pour les profils DYS visuo-attentionnels : les mots adjacents créent un encombrement perceptif (crowding) qui peut aggraver les difficultés de décodage. (Godefroy & Roubot, 2020 — corpus RISS)
-          </p>
-        )}
       </Field>
+
     </div>
   )
 }
 
-function Field({ label, children }) {
+function Field({ label, help, children }) {
   return (
-    <div>
-      <p className="text-sm font-medium text-gray-700 mb-1">{label}</p>
-      {children}
+    <div className="space-y-1">
+      <p className="text-sm font-medium text-gray-700">{label}</p>
+      {help && <p className="text-xs text-gray-500 leading-relaxed">{help}</p>}
+      <div className="pt-1">{children}</div>
     </div>
   )
 }
