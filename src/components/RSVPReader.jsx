@@ -58,15 +58,6 @@ export default function RSVPReader({ settings, defaultText = '' }) {
       return
     }
 
-    if (ttsEnabled && hasTTS) {
-      window.speechSynthesis.cancel()
-      const utt = new SpeechSynthesisUtterance(chunks[index])
-      const voice = voices.find(v => v.voiceURI === selectedVoiceURI)
-      if (voice) utt.voice = voice
-      utt.rate = Math.min(Math.max(s.wpm / 150, 0.5), 2)
-      window.speechSynthesis.speak(utt)
-    }
-
     const duration = chunkDuration(chunks[index], s.wpm, s.pause_punctuation)
     timerRef.current = setTimeout(() => setIndex(i => i + 1), duration)
     return () => clearTimeout(timerRef.current)
@@ -75,6 +66,14 @@ export default function RSVPReader({ settings, defaultText = '' }) {
   function startReading() {
     const c = textToChunks(text, s.chunk_size)
     if (!c.length) return
+    if (ttsEnabled && hasTTS) {
+      window.speechSynthesis.cancel()
+      const utt = new SpeechSynthesisUtterance(text)
+      const voice = voices.find(v => v.voiceURI === selectedVoiceURI)
+      if (voice) utt.voice = voice
+      utt.rate = Math.min(Math.max(s.wpm / 150, 0.5), 2)
+      window.speechSynthesis.speak(utt)
+    }
     setChunks(c)
     setIndex(0)
     setReading(true)
