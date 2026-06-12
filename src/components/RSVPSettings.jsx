@@ -1,5 +1,5 @@
 export default function RSVPSettings({ settings, onChange, readOnly = false }) {
-  const s = settings ?? { wpm: 180, font_size: 36, chunk_size: 1, pause_punctuation: true, background: 'white' }
+  const s = settings ?? { wpm: 180, font_size: 36, chunk_size: 1, pause_punctuation: true, background: 'white', show_context: false }
 
   if (readOnly) return (
     <div className="space-y-2 text-gray-700">
@@ -8,6 +8,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
       <Row label="Mots par affichage">{s.chunk_size}</Row>
       <Row label="Pause ponctuation">{s.pause_punctuation ? 'Oui' : 'Non'}</Row>
       <Row label="Fond">{s.background === 'yellow' ? 'Ocre' : 'Blanc'}</Row>
+      <Row label="Mots de contexte">{s.show_context ? 'Activés' : 'Désactivés'}</Row>
     </div>
   )
 
@@ -48,6 +49,17 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
             </button>
           ))}
         </div>
+      </Field>
+      <Field label="Mots de contexte (chunks précédent / suivant)">
+        <button onClick={() => onChange({ ...s, show_context: !s.show_context })}
+          className={`px-4 py-2 rounded border font-semibold ${s.show_context ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
+          {s.show_context ? 'Activés' : 'Désactivés'}
+        </button>
+        {s.show_context && (
+          <p className="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded p-2">
+            Déconseillé pour les profils DYS visuo-attentionnels : les mots adjacents créent un encombrement perceptif (crowding) qui peut aggraver les difficultés de décodage. (Godefroy & Roubot, 2020 — corpus RISS)
+          </p>
+        )}
       </Field>
     </div>
   )

@@ -9,7 +9,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
 ).href
 
 export default function RSVPReader({ settings, defaultText = '' }) {
-  const s = settings ?? { wpm: 180, font_size: 36, chunk_size: 1, pause_punctuation: true, background: 'white' }
+  const s = settings ?? { wpm: 180, font_size: 36, chunk_size: 1, pause_punctuation: true, background: 'white', show_context: false }
   const [text, setText] = useState(defaultText)
   const [reading, setReading] = useState(false)
   const [chunks, setChunks] = useState([])
@@ -123,9 +123,23 @@ export default function RSVPReader({ settings, defaultText = '' }) {
   if (reading) return (
     <div className={`fixed inset-0 ${bgClass} flex flex-col items-center justify-center z-50`}>
       <div className="flex-1 flex items-center justify-center px-8">
-        <span style={{ fontSize: `${s.font_size}px`, fontFamily: 'Arial, sans-serif', fontWeight: 'bold', textAlign: 'center' }}>
-          {chunks[index] ?? ''}
-        </span>
+        {s.show_context ? (
+          <div className="flex items-center gap-6">
+            <span style={{ fontSize: `${Math.round(s.font_size * 0.6)}px`, fontFamily: 'Arial, sans-serif', color: '#bbb', textAlign: 'center', minWidth: '6ch' }}>
+              {chunks[index - 1] ?? ''}
+            </span>
+            <span style={{ fontSize: `${s.font_size}px`, fontFamily: 'Arial, sans-serif', fontWeight: 'bold', textAlign: 'center' }}>
+              {chunks[index] ?? ''}
+            </span>
+            <span style={{ fontSize: `${Math.round(s.font_size * 0.6)}px`, fontFamily: 'Arial, sans-serif', color: '#bbb', textAlign: 'center', minWidth: '6ch' }}>
+              {chunks[index + 1] ?? ''}
+            </span>
+          </div>
+        ) : (
+          <span style={{ fontSize: `${s.font_size}px`, fontFamily: 'Arial, sans-serif', fontWeight: 'bold', textAlign: 'center' }}>
+            {chunks[index] ?? ''}
+          </span>
+        )}
       </div>
       <div className="w-full bg-gray-200 h-1">
         <div className="bg-[#0a9370] h-1 transition-all" style={{ width: `${progress}%` }} />
