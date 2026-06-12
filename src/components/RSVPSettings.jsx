@@ -7,7 +7,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
       <Row label="Taille police">{s.font_size}px</Row>
       <Row label="Mots par affichage">{s.chunk_size}</Row>
       <Row label="Pause ponctuation">{s.pause_punctuation ? 'Oui' : 'Non'}</Row>
-      <Row label="Fond">{s.background === 'yellow' ? 'Jaune doux' : 'Blanc'}</Row>
+      <Row label="Fond">{s.background === 'yellow' ? 'Ocre' : 'Blanc'}</Row>
     </div>
   )
 
@@ -41,7 +41,7 @@ export default function RSVPSettings({ settings, onChange, readOnly = false }) {
       </Field>
       <Field label="Fond de lecture">
         <div className="flex gap-2">
-          {[{ value: 'white', label: 'Blanc' }, { value: 'yellow', label: 'Jaune doux' }].map(opt => (
+          {[{ value: 'white', label: 'Blanc' }, { value: 'yellow', label: 'Ocre' }].map(opt => (
             <button key={opt.value} onClick={() => onChange({ ...s, background: opt.value })}
               className={`px-4 py-2 rounded border font-semibold ${s.background === opt.value ? 'bg-[#0a9370] text-white border-[#0a9370]' : 'border-gray-300'}`}>
               {opt.label}

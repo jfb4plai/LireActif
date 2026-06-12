@@ -6,7 +6,7 @@ export default function PredictEditor({ token, settings }) {
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(false)
   const debounceRef = useRef(null)
-  const bgClass = s.background === 'yellow' ? 'bg-yellow-50' : 'bg-white'
+  const bgClass = s.background === 'yellow' ? 'bg-[#e8d5a3]' : 'bg-white'
 
   const fetchSuggestions = useCallback(async (currentText) => {
     if (!currentText.trim() || currentText.trim().split(/\s+/).length < 2) {

@@ -48,7 +48,7 @@ export default function StudentAccess() {
     </div>
   )
 
-  const bgClass = rsvp?.background === 'yellow' ? 'bg-yellow-50' : 'bg-white'
+  const bgClass = rsvp?.background === 'yellow' ? 'bg-[#e8d5a3]' : 'bg-white'
 
   return (
     <div className={`min-h-screen ${bgClass}`}>

@@ -22,7 +22,7 @@ export default function RSVPReader({ settings, defaultText = '' }) {
   const fileInputRef = useRef(null)
 
   const hasTTS = typeof window !== 'undefined' && 'speechSynthesis' in window
-  const bgClass = s.background === 'yellow' ? 'bg-yellow-50' : 'bg-white'
+  const bgClass = s.background === 'yellow' ? 'bg-[#e8d5a3]' : 'bg-white'
 
   useEffect(() => {
     if (!hasTTS) return
