@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { textToChunks, chunkDuration } from '../lib/rsvp.js'
 
-export default function RSVPReader({ settings }) {
+export default function RSVPReader({ settings, defaultText = '' }) {
   const s = settings ?? { wpm: 180, font_size: 36, chunk_size: 1, pause_punctuation: true, background: 'white' }
-  const [text, setText] = useState('')
+  const [text, setText] = useState(defaultText)
   const [reading, setReading] = useState(false)
   const [chunks, setChunks] = useState([])
   const [index, setIndex] = useState(0)

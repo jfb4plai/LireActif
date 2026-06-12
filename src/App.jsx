@@ -7,6 +7,7 @@ import StudentProfile from './pages/StudentProfile.jsx'
 import MySchool from './pages/MySchool.jsx'
 import StudentAccess from './pages/StudentAccess.jsx'
 import SchoolOnboarding from './pages/SchoolOnboarding.jsx'
+import RSVPDemo from './pages/RSVPDemo.jsx'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
@@ -33,6 +34,7 @@ export default function App() {
 
   return (
     <Routes>
+      <Route path="/demo" element={<RSVPDemo />} />
       <Route path="/eleve/:token" element={<StudentAccess />} />
       {!session ? (
         <>
