@@ -43,7 +43,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </>
-      ) : !schoolId ? (
+      ) : !schoolId && session.user.email !== 'jeanfrancois.beguin@ens.ecl.be' ? (
         <>
           <Route path="/onboarding" element={<SchoolOnboarding userId={session.user.id} onDone={id => setSchoolId(id)} />} />
           <Route path="*" element={<Navigate to="/onboarding" replace />} />
