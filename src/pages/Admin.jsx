@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../supabase.js'
 import Nav from '../components/Nav.jsx'
 
@@ -11,7 +12,7 @@ function genCode() {
 }
 
 export default function Admin() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(undefined)
   const [schools, setSchools] = useState([])
   const [selected, setSelected] = useState(null)
   const [teachers, setTeachers] = useState([])
@@ -22,9 +23,13 @@ export default function Admin() {
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => setUser(user))
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user)
+      if (!user) navigate('/login', { replace: true })
+    })
   }, [])
 
   useEffect(() => {
@@ -95,7 +100,7 @@ export default function Admin() {
     setCreating(false)
   }
 
-  if (!user) return <div className="min-h-screen bg-p-bg flex items-center justify-center text-p-gris2 text-sm">Chargement…</div>
+  if (user === undefined) return <div className="min-h-screen bg-p-bg flex items-center justify-center text-p-gris2 text-sm">Chargement…</div>
   if (user.email !== ADMIN_EMAIL) return (
     <div className="min-h-screen bg-p-bg flex items-center justify-center">
       <p className="text-sm text-p-gris2">Accès réservé à l'administrateur PLAI.</p>
