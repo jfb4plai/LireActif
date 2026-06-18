@@ -16,7 +16,7 @@ export default function Login() {
     setLoading(true)
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) { setError(error.message); setLoading(false); return }
-    const { data: ts } = await supabase.from('teacher_schools').select('school_id').eq('teacher_id', data.user.id).maybeSingle()
+    const { data: ts } = await supabase.from('lire_teacher_schools').select('school_id').eq('teacher_id', data.user.id).maybeSingle()
     if (!ts) { setPendingUserId(data.user.id); setMode('school') }
     setLoading(false)
   }
@@ -36,10 +36,10 @@ export default function Login() {
     e.preventDefault()
     setError('')
     setLoading(true)
-    const { data: school } = await supabase.from('schools').select('id').eq('code', schoolCode.trim().toUpperCase()).maybeSingle()
+    const { data: school } = await supabase.from('lire_schools').select('id').eq('code', schoolCode.trim().toUpperCase()).maybeSingle()
     if (!school) { setError('Code école inconnu. Contactez le PLAI.'); setLoading(false); return }
     const userId = pendingUserId || (await supabase.auth.getUser()).data.user?.id
-    await supabase.from('teacher_schools').insert({ teacher_id: userId, school_id: school.id })
+    await supabase.from('lire_teacher_schools').insert({ teacher_id: userId, school_id: school.id })
     setLoading(false)
     window.location.href = '/'
   }

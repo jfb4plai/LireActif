@@ -10,9 +10,9 @@ export default function SchoolOnboarding({ userId, onDone }) {
     e.preventDefault()
     setError('')
     setLoading(true)
-    const { data: school } = await supabase.from('schools').select('id').eq('code', schoolCode.trim().toUpperCase()).maybeSingle()
+    const { data: school } = await supabase.from('lire_schools').select('id').eq('code', schoolCode.trim().toUpperCase()).maybeSingle()
     if (!school) { setError('Code école inconnu. Contactez le PLAI.'); setLoading(false); return }
-    const { error: insertError } = await supabase.from('teacher_schools').insert({ teacher_id: userId, school_id: school.id })
+    const { error: insertError } = await supabase.from('lire_teacher_schools').insert({ teacher_id: userId, school_id: school.id })
     if (insertError) { setError(insertError.message); setLoading(false); return }
     onDone(school.id)
   }

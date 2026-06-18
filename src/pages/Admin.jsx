@@ -39,14 +39,14 @@ export default function Admin() {
   async function loadSchools() {
     setLoadingSchools(true)
     const { data } = await supabase
-      .from('schools')
+      .from('lire_schools')
       .select('id, name, code')
       .order('name')
     // Pour chaque école, compter les enseignants
     if (data) {
       const withCounts = await Promise.all(data.map(async s => {
         const { count } = await supabase
-          .from('teacher_schools')
+          .from('lire_teacher_schools')
           .select('*', { count: 'exact', head: true })
           .eq('school_id', s.id)
         return { ...s, count: count ?? 0 }
@@ -61,7 +61,7 @@ export default function Admin() {
     setTeachers([])
     setLoadingTeachers(true)
     const { data } = await supabase
-      .from('teacher_schools')
+      .from('lire_teacher_schools')
       .select('teacher_id')
       .eq('school_id', school.id)
     // Récupérer les emails via auth.users n'est pas accessible côté client RLS
@@ -73,7 +73,7 @@ export default function Admin() {
   async function removeTeacher(teacherId) {
     if (!confirm('Retirer cet enseignant de l\'école ?')) return
     await supabase
-      .from('teacher_schools')
+      .from('lire_teacher_schools')
       .delete()
       .eq('school_id', selected.id)
       .eq('teacher_id', teacherId)
@@ -88,7 +88,7 @@ export default function Admin() {
     setCreating(true)
     const code = newCode.trim().toUpperCase()
     const name = newName.trim()
-    const { error: err } = await supabase.from('schools').insert({ name, code })
+    const { error: err } = await supabase.from('lire_schools').insert({ name, code })
     if (err) {
       setError(err.message)
     } else {

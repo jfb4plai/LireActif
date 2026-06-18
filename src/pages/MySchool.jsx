@@ -13,8 +13,8 @@ export default function MySchool() {
   useEffect(() => {
     if (!schoolId) return
     Promise.all([
-      supabase.from('schools').select('name, code').eq('id', schoolId).single(),
-      supabase.from('teacher_schools').select('teacher_id').eq('school_id', schoolId),
+      supabase.from('lire_schools').select('name, code').eq('id', schoolId).single(),
+      supabase.from('lire_teacher_schools').select('teacher_id').eq('school_id', schoolId),
     ]).then(([{ data: s }, { data: ts }]) => {
       setSchool(s)
       setTeachers(ts ?? [])

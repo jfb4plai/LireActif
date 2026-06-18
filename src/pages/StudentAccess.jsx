@@ -14,7 +14,7 @@ export default function StudentAccess() {
   useEffect(() => {
     async function load() {
       const { data: tokenRow, error: tokenError } = await supabase
-        .from('student_tokens')
+        .from('lire_student_tokens')
         .select('student_id, expires_at')
         .eq('token', token)
         .maybeSingle()
@@ -27,7 +27,7 @@ export default function StudentAccess() {
       }
 
       const { data: r } = await supabase
-        .from('rsvp_settings')
+        .from('lire_rsvp_settings')
         .select('*')
         .eq('student_id', tokenRow.student_id)
         .maybeSingle()

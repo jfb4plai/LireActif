@@ -25,7 +25,7 @@ export default function App() {
 
   useEffect(() => {
     if (!session) return
-    supabase.from('teacher_schools').select('school_id').eq('teacher_id', session.user.id).maybeSingle()
+    supabase.from('lire_teacher_schools').select('school_id').eq('teacher_id', session.user.id).maybeSingle()
       .then(({ data }) => setSchoolId(data?.school_id ?? null))
   }, [session])
 

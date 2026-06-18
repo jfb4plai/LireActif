@@ -13,7 +13,7 @@ export function useAuth() {
       setUser(user)
       if (user) {
         const { data } = await supabase
-          .from('teacher_schools')
+          .from('lire_teacher_schools')
           .select('school_id')
           .eq('teacher_id', user.id)
           .maybeSingle()

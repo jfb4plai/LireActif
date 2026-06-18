@@ -11,7 +11,7 @@ export function useStudents() {
     if (!schoolId) return
     setLoading(true)
     supabase
-      .from('student_profiles')
+      .from('lire_student_profiles')
       .select('id, display_name, owner_id, created_at')
       .eq('school_id', schoolId)
       .order('created_at', { ascending: false })
@@ -23,13 +23,13 @@ export function useStudents() {
 
   async function createStudent(displayName) {
     const { data: ts } = await supabase
-      .from('teacher_schools')
+      .from('lire_teacher_schools')
       .select('school_id')
       .eq('teacher_id', user.id)
       .single()
 
     const { data, error } = await supabase
-      .from('student_profiles')
+      .from('lire_student_profiles')
       .insert({ display_name: displayName, school_id: ts.school_id, owner_id: user.id })
       .select()
       .single()

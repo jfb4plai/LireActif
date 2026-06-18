@@ -24,9 +24,9 @@ export default function StudentProfile() {
 
   useEffect(() => {
     Promise.all([
-      supabase.from('student_profiles').select('*').eq('id', id).single(),
-      supabase.from('rsvp_settings').select('*').eq('student_id', id).maybeSingle(),
-      supabase.from('predict_settings').select('*').eq('student_id', id).maybeSingle(),
+      supabase.from('lire_student_profiles').select('*').eq('id', id).single(),
+      supabase.from('lire_rsvp_settings').select('*').eq('student_id', id).maybeSingle(),
+      supabase.from('lire_predict_settings').select('*').eq('student_id', id).maybeSingle(),
     ]).then(([{ data: s }, { data: r }, { data: p }]) => {
       setStudent(s)
       setRsvp(r ?? { wpm: 180, font_size: 36, chunk_size: 1, pause_punctuation: true, background: 'white', show_context: false })
@@ -38,8 +38,8 @@ export default function StudentProfile() {
     if (!isOwner) return
     setSaving(true)
     await Promise.all([
-      supabase.from('rsvp_settings').upsert({ ...rsvp, student_id: id, owner_id: user.id }, { onConflict: 'student_id' }),
-      supabase.from('predict_settings').upsert({ ...predict, student_id: id, owner_id: user.id }, { onConflict: 'student_id' }),
+      supabase.from('lire_rsvp_settings').upsert({ ...rsvp, student_id: id, owner_id: user.id }, { onConflict: 'student_id' }),
+      supabase.from('lire_predict_settings').upsert({ ...predict, student_id: id, owner_id: user.id }, { onConflict: 'student_id' }),
     ])
     setSaving(false)
     setSaved(true)
