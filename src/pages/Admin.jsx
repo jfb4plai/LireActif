@@ -100,7 +100,7 @@ export default function Admin() {
     setCreating(false)
   }
 
-  if (user === undefined) return <div className="min-h-screen bg-p-bg flex items-center justify-center text-p-gris2 text-sm">Chargement…</div>
+  if (user === undefined || user === null) return <div className="min-h-screen bg-p-bg flex items-center justify-center text-p-gris2 text-sm">Chargement…</div>
   if (user.email !== ADMIN_EMAIL) return (
     <div className="min-h-screen bg-p-bg flex items-center justify-center">
       <p className="text-sm text-p-gris2">Accès réservé à l'administrateur PLAI.</p>
