@@ -1,16 +1,5 @@
-export default function RSVPSettings({ settings, onChange, readOnly = false }) {
+export default function RSVPSettings({ settings, onChange }) {
   const s = settings ?? { wpm: 180, font_size: 36, chunk_size: 1, pause_punctuation: true, background: 'white', show_context: false }
-
-  if (readOnly) return (
-    <div className="space-y-2 text-gray-700">
-      <Row label="Vitesse">{s.wpm} mots/min</Row>
-      <Row label="Taille police">{s.font_size}px</Row>
-      <Row label="Mots par affichage">{s.chunk_size}</Row>
-      <Row label="Pause ponctuation">{s.pause_punctuation ? 'Oui' : 'Non'}</Row>
-      <Row label="Fond">{s.background === 'yellow' ? 'Ocre' : 'Blanc'}</Row>
-      <Row label="Mots de contexte">{s.show_context ? 'Activés' : 'Désactivés'}</Row>
-    </div>
-  )
 
   return (
     <div className="space-y-5">
@@ -96,15 +85,6 @@ function Field({ label, help, children }) {
       <p className="text-sm font-medium text-gray-700">{label}</p>
       {help && <p className="text-xs text-gray-500 leading-relaxed">{help}</p>}
       <div className="pt-1">{children}</div>
-    </div>
-  )
-}
-
-function Row({ label, children }) {
-  return (
-    <div className="flex justify-between py-1 border-b border-gray-100">
-      <span className="text-sm text-gray-500">{label}</span>
-      <span className="text-sm font-medium">{children}</span>
     </div>
   )
 }

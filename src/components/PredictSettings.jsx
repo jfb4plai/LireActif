@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function PredictSettings({ settings, onChange, readOnly = false }) {
+export default function PredictSettings({ settings, onChange }) {
   const s = settings ?? { domain_vocab: [], context_note: '', lang: 'fr' }
   const [vocabInput, setVocabInput] = useState('')
 
@@ -14,20 +14,6 @@ export default function PredictSettings({ settings, onChange, readOnly = false }
   function removeVocab(word) {
     onChange({ ...s, domain_vocab: s.domain_vocab.filter(w => w !== word) })
   }
-
-  if (readOnly) return (
-    <div className="space-y-3 text-gray-700">
-      <Row label="Langue">{s.lang === 'nl' ? 'Néerlandais' : 'Français'}</Row>
-      <Row label="Contexte">{s.context_note || '—'}</Row>
-      <div>
-        <p className="text-sm text-gray-500 mb-1">Vocabulaire</p>
-        <div className="flex flex-wrap gap-1">
-          {s.domain_vocab.map(w => <span key={w} className="bg-p-beige text-p-rose-dk px-2 py-0.5 rounded-[2px] text-xs font-medium">{w}</span>)}
-          {s.domain_vocab.length === 0 && <span className="text-gray-400 text-sm">—</span>}
-        </div>
-      </div>
-    </div>
-  )
 
   return (
     <div className="space-y-4">
@@ -80,15 +66,6 @@ export default function PredictSettings({ settings, onChange, readOnly = false }
           ))}
         </div>
       </div>
-    </div>
-  )
-}
-
-function Row({ label, children }) {
-  return (
-    <div className="flex justify-between py-1 border-b border-gray-100">
-      <span className="text-sm text-gray-500">{label}</span>
-      <span className="text-sm font-medium">{children}</span>
     </div>
   )
 }

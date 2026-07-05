@@ -13,6 +13,7 @@ export default function StudentProfile() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const [student, setStudent] = useState(null)
+  const [notFound, setNotFound] = useState(false)
   const [rsvp, setRsvp] = useState(null)
   const [predict, setPredict] = useState(null)
   const [tab, setTab] = useState('rsvp')
@@ -20,14 +21,13 @@ export default function StudentProfile() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
 
-  const isOwner = student?.owner_id === user?.id
-
   useEffect(() => {
     Promise.all([
-      supabase.from('lire_student_profiles').select('*').eq('id', id).single(),
+      supabase.from('lire_student_profiles').select('*').eq('id', id).maybeSingle(),
       supabase.from('lire_rsvp_settings').select('*').eq('student_id', id).maybeSingle(),
       supabase.from('lire_predict_settings').select('*').eq('student_id', id).maybeSingle(),
     ]).then(([{ data: s }, { data: r }, { data: p }]) => {
+      if (!s) { setNotFound(true); return }
       setStudent(s)
       setRsvp(r ?? { wpm: 180, font_size: 36, chunk_size: 1, pause_punctuation: true, background: 'white', show_context: false })
       setPredict(p ?? { domain_vocab: [], context_note: '', lang: 'fr' })
@@ -35,7 +35,6 @@ export default function StudentProfile() {
   }, [id])
 
   async function saveSettings() {
-    if (!isOwner) return
     setSaving(true)
     await Promise.all([
       supabase.from('lire_rsvp_settings').upsert({ ...rsvp, student_id: id, owner_id: user.id }, { onConflict: 'student_id' }),
@@ -45,6 +44,16 @@ export default function StudentProfile() {
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
+
+  if (notFound) return (
+    <div className="min-h-screen bg-p-bg">
+      <Nav />
+      <div className="max-w-2xl mx-auto p-4 pt-6 space-y-3">
+        <p className="text-sm text-p-gris">Profil introuvable, ou vous n'y avez pas accès.</p>
+        <button onClick={() => navigate('/')} className="text-xs text-p-rose hover:underline">← Retour à mes élèves</button>
+      </div>
+    </div>
+  )
 
   if (!student) return (
     <div className="min-h-screen bg-p-bg">
@@ -65,19 +74,12 @@ export default function StudentProfile() {
         </div>
 
         <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-xl font-bold text-p-noir tracking-tight">{student.display_name}</h1>
-            {isOwner
-              ? <span className="text-[10px] font-semibold bg-p-beige text-p-rose-dk px-2 py-0.5 rounded-[2px] uppercase tracking-wide">Propriétaire</span>
-              : <span className="text-[10px] font-semibold bg-p-bg text-p-gris2 px-2 py-0.5 rounded-[2px] uppercase tracking-wide border border-p-bord">Lecture seule</span>}
-          </div>
+          <h1 className="text-xl font-bold text-p-noir tracking-tight">{student.display_name}</h1>
           <div className="flex gap-2">
-            {isOwner && (
-              <button onClick={() => setShowToken(true)}
-                className="text-xs bg-p-rose text-white px-3 py-1.5 rounded-[2px] font-semibold hover:bg-p-rose-dk transition-colors">
-                Accès élève
-              </button>
-            )}
+            <button onClick={() => setShowToken(true)}
+              className="text-xs bg-p-rose text-white px-3 py-1.5 rounded-[2px] font-semibold hover:bg-p-rose-dk transition-colors">
+              Accès élève
+            </button>
             <ExportPDF student={student} rsvp={rsvp} predict={predict} />
           </div>
         </div>
@@ -93,16 +95,14 @@ export default function StudentProfile() {
 
         <div className="bg-white border border-p-bord rounded-[2px] p-4">
           {tab === 'rsvp'
-            ? <RSVPSettings settings={rsvp} onChange={setRsvp} readOnly={!isOwner} />
-            : <PredictSettings settings={predict} onChange={setPredict} readOnly={!isOwner} />}
+            ? <RSVPSettings settings={rsvp} onChange={setRsvp} />
+            : <PredictSettings settings={predict} onChange={setPredict} />}
         </div>
 
-        {isOwner && (
-          <button onClick={saveSettings} disabled={saving}
-            className="w-full bg-p-noir text-white py-3 rounded-[2px] font-semibold text-sm disabled:opacity-50 hover:bg-p-noir2 transition-colors">
-            {saving ? 'Enregistrement…' : saved ? '✓ Enregistré' : 'Enregistrer les réglages'}
-          </button>
-        )}
+        <button onClick={saveSettings} disabled={saving}
+          className="w-full bg-p-noir text-white py-3 rounded-[2px] font-semibold text-sm disabled:opacity-50 hover:bg-p-noir2 transition-colors">
+          {saving ? 'Enregistrement…' : saved ? '✓ Enregistré' : 'Enregistrer les réglages'}
+        </button>
 
         {showToken && <TokenModal studentId={id} onClose={() => setShowToken(false)} />}
       </div>
