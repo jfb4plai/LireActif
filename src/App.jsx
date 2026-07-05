@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { supabase } from './supabase.js'
 import Login from './pages/Login.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import StudentProfile from './pages/StudentProfile.jsx'
 import MySchool from './pages/MySchool.jsx'
@@ -38,6 +39,7 @@ export default function App() {
       <Route path="/demo" element={<RSVPDemo />} />
       <Route path="/eleve/:token" element={<StudentAccess />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       {!session ? (
         <>
           <Route path="/login" element={<Login />} />

@@ -9,6 +9,20 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [pendingUserId, setPendingUserId] = useState(null)
+  const [success, setSuccess] = useState('')
+
+  async function handleReset(e) {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
+    setLoading(true)
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    })
+    if (error) setError(error.message)
+    else setSuccess('Email envoyé. Vérifiez votre boîte mail.')
+    setLoading(false)
+  }
 
   async function handleLogin(e) {
     e.preventDefault()
@@ -66,6 +80,30 @@ export default function Login() {
     </div>
   )
 
+  if (mode === 'reset') return (
+    <div className="min-h-screen flex items-center justify-center bg-p-bg">
+      <form onSubmit={handleReset} className="bg-white border border-p-bord rounded-[2px] p-8 w-full max-w-sm space-y-4">
+        <div className="flex items-center gap-3 mb-2">
+          <img src="/plai-logo.jpg" alt="PLAI" className="h-10 w-auto" />
+          <span className="text-xs font-semibold text-p-noir tracking-wide">LireActif</span>
+        </div>
+        <h1 className="text-lg font-bold text-p-noir">Mot de passe oublié</h1>
+        <p className="text-sm text-p-gris">Saisissez votre email — vous recevrez un lien pour créer un nouveau mot de passe.</p>
+        <input type="email" className={inputCls} placeholder="Email"
+          value={email} onChange={e => setEmail(e.target.value)} required />
+        {error && <p className="text-red-600 text-xs">{error}</p>}
+        {success && <p className="text-green-600 text-xs">{success}</p>}
+        <button type="submit" disabled={loading} className={btnCls}>
+          {loading ? '…' : 'Envoyer le lien'}
+        </button>
+        <button type="button" onClick={() => { setMode('login'); setError(''); setSuccess('') }}
+          className="w-full text-xs text-p-gris hover:text-p-rose transition-colors">
+          ← Retour à la connexion
+        </button>
+      </form>
+    </div>
+  )
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-p-bg">
       <form onSubmit={mode === 'login' ? handleLogin : handleSignup}
@@ -89,6 +127,12 @@ export default function Login() {
           className="w-full text-xs text-p-gris hover:text-p-rose transition-colors">
           {mode === 'login' ? 'Créer un compte' : 'Déjà un compte ?'}
         </button>
+        {mode === 'login' && (
+          <button type="button" onClick={() => { setMode('reset'); setError('') }}
+            className="w-full text-xs text-p-gris2 hover:text-p-rose transition-colors">
+            Mot de passe oublié ?
+          </button>
+        )}
       </form>
     </div>
   )
