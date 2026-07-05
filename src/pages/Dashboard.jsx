@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useStudents } from '../hooks/useStudents.js'
+import { isValidStudentName } from '../lib/studentName.js'
 import Nav from '../components/Nav.jsx'
 
 export default function Dashboard() {
@@ -8,6 +9,7 @@ export default function Dashboard() {
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [newName, setNewName] = useState('')
+  const [nameError, setNameError] = useState('')
   const [creating, setCreating] = useState(false)
   const [showForm, setShowForm] = useState(false)
 
@@ -17,9 +19,14 @@ export default function Dashboard() {
 
   async function handleCreate(e) {
     e.preventDefault()
-    if (!newName.trim()) return
+    const trimmed = newName.trim()
+    if (!isValidStudentName(trimmed)) {
+      setNameError('Format attendu : Prénom I. (ex: Marie D.) — jamais le nom complet.')
+      return
+    }
+    setNameError('')
     setCreating(true)
-    const { data } = await createStudent(newName.trim())
+    const { data } = await createStudent(trimmed)
     setCreating(false)
     setShowForm(false)
     setNewName('')
@@ -64,20 +71,29 @@ export default function Dashboard() {
         )}
 
         {showForm ? (
-          <form onSubmit={handleCreate} className="flex gap-2">
-            <input
-              className="flex-1 border border-p-bord rounded-[2px] p-2.5 text-sm focus:outline-none focus:border-p-noir"
-              placeholder="Prénom I. (ex: Marie D.)"
-              value={newName} onChange={e => setNewName(e.target.value)} required autoFocus
-            />
-            <button type="submit" disabled={creating}
-              className="bg-p-noir text-white px-4 rounded-[2px] text-sm font-semibold disabled:opacity-50 hover:bg-p-noir2">
-              {creating ? '…' : 'Créer'}
-            </button>
-            <button type="button" onClick={() => setShowForm(false)}
-              className="px-4 py-2 border border-p-bord rounded-[2px] text-sm text-p-gris hover:border-p-gris">
-              Annuler
-            </button>
+          <form onSubmit={handleCreate} className="space-y-1.5">
+            <div className="flex gap-2">
+              <input
+                className={`flex-1 border rounded-[2px] p-2.5 text-sm focus:outline-none ${nameError ? 'border-red-400' : 'border-p-bord focus:border-p-noir'}`}
+                placeholder="Prénom I. (ex: Marie D.)"
+                value={newName}
+                onChange={e => { setNewName(e.target.value); if (nameError) setNameError('') }}
+                required autoFocus
+              />
+              <button type="submit" disabled={creating}
+                className="bg-p-noir text-white px-4 rounded-[2px] text-sm font-semibold disabled:opacity-50 hover:bg-p-noir2">
+                {creating ? '…' : 'Créer'}
+              </button>
+              <button type="button" onClick={() => { setShowForm(false); setNameError('') }}
+                className="px-4 py-2 border border-p-bord rounded-[2px] text-sm text-p-gris hover:border-p-gris">
+                Annuler
+              </button>
+            </div>
+            {nameError
+              ? <p className="text-xs text-red-600">{nameError}</p>
+              : <p className="text-xs text-p-gris2">
+                  Prénom et initiale uniquement — jamais le nom complet. Ce profil restera visible par vous seul.
+                </p>}
           </form>
         ) : (
           <button onClick={() => setShowForm(true)}

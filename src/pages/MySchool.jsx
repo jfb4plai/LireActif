@@ -52,7 +52,7 @@ export default function MySchool() {
             {teachers.length} enseignant{teachers.length > 1 ? 's' : ''} connecté{teachers.length > 1 ? 's' : ''} à cette école
           </p>
           <p className="text-xs text-p-gris2">
-            Tous partagent la lecture des profils élèves. Seul le créateur d'un profil peut le modifier.
+            Chaque enseignant ne voit que les profils élèves qu'il a créés — rien n'est partagé entre collègues.
           </p>
         </div>
       </div>

@@ -56,6 +56,9 @@ export default function PredictSettings({ settings, onChange, readOnly = false }
           maxLength={300}
           onChange={e => onChange({ ...s, context_note: e.target.value })}
         />
+        <p className="text-xs text-gray-500 mt-1">
+          Ce texte est transmis à l'IA à chaque prédiction. Décrivez le chapitre ou le type de texte — jamais l'élève : pas de nom, pas de diagnostic, pas d'information personnelle.
+        </p>
       </div>
       <div>
         <label className="text-sm font-medium text-gray-700">Vocabulaire du chapitre</label>
